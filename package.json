@@ -1,0 +1,55 @@
+{
+  "name": "stockfile",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FlozzyDev/StockFile.git"
+  },
+  "keywords": [],
+  "author": "Dallin Hale, Matai Cross",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/FlozzyDev/StockFile/issues"
+  },
+  "homepage": "https://github.com/FlozzyDev/StockFile#readme",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "connect-mongo": "^5.1.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "express-session": "^1.18.1",
+    "joi": "^17.13.3",
+    "mongoose": "^8.15.0",
+    "passport": "^0.7.0",
+    "passport-github2": "^0.1.12",
+    "swagger-ui-express": "^5.0.1",
+    "typescript": "^5.8.3",
+    "@types/express": "^5.0.2",
+    "@types/express-session": "^1.18.1",
+    "@types/node": "^22.15.19",
+    "@types/bcrypt": "^5.0.2",
+    "@types/cookie-parser": "^1.4.8",
+    "@types/cors": "^2.8.18",
+    "@types/passport": "^1.0.17",
+    "@types/passport-github2": "^1.2.9",
+    "@types/swagger-ui-express": "^4.1.8"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^8.32.1",
+    "@typescript-eslint/parser": "^8.32.1",
+    "eslint": "^9.27.0",
+    "eslint-config-prettier": "^10.1.5",
+    "prettier": "^3.5.3",
+    "tsx": "^4.19.4"
+  }
+}
