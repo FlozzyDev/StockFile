@@ -45,4 +45,12 @@ app.use(passport.session());
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/', indexRoute);
 
+app.use('/', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: 'Welcome to the StockFile API. Redirecting to /api-docs...',
+    redirect: '/api-docs',
+  });
+});
+
 export default app;
