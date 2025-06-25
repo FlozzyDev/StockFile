@@ -12,15 +12,6 @@ const clientSecret = isProduction
   ? process.env.GITHUB_CLIENT_SECRET
   : process.env.GITHUB_CLIENT_SECRET_DEV;
 
-// Validate that required environment variables are set
-if (!clientID) {
-  throw new Error(`GitHub Client ID is required. Please set ${isProduction ? 'GITHUB_CLIENT_ID' : 'DEV_GITHUB_CLIENT_ID'} in your environment variables.`);
-}
-
-if (!clientSecret) {
-  throw new Error(`GitHub Client Secret is required. Please set ${isProduction ? 'GITHUB_CLIENT_SECRET' : 'DEV_GITHUB_CLIENT_SECRET'} in your environment variables.`);
-}
-
 const baseUrl = isProduction
   ? 'https://stockfile.onrender.com'
   : 'http://localhost:3000';
@@ -43,12 +34,13 @@ passport.serializeUser((user: any, done) => {
 passport.use(
   new GitHubStrategy(
     {
-        clientID,
-        clientSecret,
-        callbackURL,
+        clientID: clientID || '',
+        clientSecret: clientSecret || '',
+        callbackURL: callbackURL || '',
     },
     async (accessToken: string, refreshToken: string, profile: any, done: any) => {
       try {
+        console.log(profile);
         let user = await OAuthUser.findOne({ githubId: profile.id });
         if (!user) {
           user = await OAuthUser.create({
@@ -59,6 +51,7 @@ passport.use(
                 profileUrl: profile.profileUrl
           });
         }
+        console.log("Located user");
         return done(null, user);
       } catch (error) {
         console.error('Error in GitHub OAuth callback:', error);
