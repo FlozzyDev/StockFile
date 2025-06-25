@@ -40,7 +40,6 @@ passport.use(
     },
     async (accessToken: string, refreshToken: string, profile: any, done: any) => {
       try {
-        console.log(profile);
         let user = await OAuthUser.findOne({ githubId: profile.id });
         if (!user) {
           user = await OAuthUser.create({

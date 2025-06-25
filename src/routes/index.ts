@@ -7,6 +7,9 @@ const router = express.Router();
 
 // Public routes
 router.use('/auth', oauthRoutes);
+router.get('/', (req, res) => {
+res.redirect('/api-docs');
+});
 
 // Protected routes
 router.use('/items', itemRoutes);
