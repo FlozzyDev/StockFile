@@ -1,4 +1,5 @@
 export interface ICategory {
+    categoryId: number;
     name: string;
-    notes: string;
+    description?: string | null;
 }

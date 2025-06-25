@@ -1,13 +1,14 @@
 export interface ISupplier {
+    supplierId: number;
     name: string;
-    website: string;
-    address: boolean;
-    addressLine1: string;
-    addressLine2: string;
-    city: string;
-    state: string;
-    zip: string;
-    country: string;
-    email: string;
-    phone: string;
+    website?: string | null;
+    address?: boolean | null;
+    addressLine1?: string | null;
+    addressLine2?: string | null;
+    city?: string | null;
+    state?: string | null;
+    zip?: string | null;
+    country?: string | null;
+    email?: string | null;
+    phone?: string | null;
 }

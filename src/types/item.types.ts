@@ -1,16 +1,17 @@
 export interface IItem {
+    itemId: number;
     name: string;
-    categoryId: string;
-    supplierId: string;
-    locationId: string;
-    purchaseDate: Date;
-    quantity: number;
-    price: number;
-    imageUrl: string;
-    SerialNumber: string;
+    categoryId?: string | null;
+    supplierId?: string | null;
+    locationId?: string | null;
+    purchaseDate?: Date | null;
+    quantity?: number | null;
+    price?: number | null;
+    imageUrl?: string | null;
+    SerialNumber?: string | null;
     warranty: boolean;
     expiration: boolean;
-    expirationDate: Date;
-    warrantyDate: Date;
-    notes: string;
+    expirationDate?: Date | null;
+    warrantyDate?: Date | null;
+    notes?: string | null;
 }

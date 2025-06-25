@@ -631,9 +631,16 @@ export default {
             content: {
               'application/json': {
                 schema: {
-                  type: 'array',
-                  items: {
-                    $ref: '#/components/schemas/Supplier',
+                  type: 'object',
+                  properties: {
+                    success: { type: 'boolean', example: true },
+                    message: { type: 'string', example: 'Returned all suppliers. Total Count: 5.' },
+                    data: {
+                      type: 'array',
+                      items: {
+                        $ref: '#/components/schemas/Supplier',
+                      },
+                    },
                   },
                 },
               },
@@ -668,6 +675,20 @@ export default {
         responses: {
           '201': {
             description: 'Supplier created successfully',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    success: { type: 'boolean', example: true },
+                    message: { type: 'string', example: 'New supplier created.' },
+                    data: {
+                      $ref: '#/components/schemas/Supplier',
+                    },
+                  },
+                },
+              },
+            },
           },
           '400': {
             description: 'Request body is required',
@@ -693,7 +714,7 @@ export default {
             name: 'supplierId',
             required: true,
             schema: {
-              type: 'string',
+              type: 'number',
             },
             description: 'The unique identifier for the supplier',
           },
@@ -704,7 +725,14 @@ export default {
             content: {
               'application/json': {
                 schema: {
-                  $ref: '#/components/schemas/Supplier',
+                  type: 'object',
+                  properties: {
+                    success: { type: 'boolean', example: true },
+                    message: { type: 'string', example: 'Located supplier with ID 1.' },
+                    data: {
+                      $ref: '#/components/schemas/Supplier',
+                    },
+                  },
                 },
               },
             },
@@ -734,7 +762,7 @@ export default {
             name: 'supplierId',
             required: true,
             schema: {
-              type: 'string',
+              type: 'number',
             },
             description: 'The unique identifier for the supplier',
           },
@@ -775,7 +803,7 @@ export default {
             name: 'supplierId',
             required: true,
             schema: {
-              type: 'string',
+              type: 'number',
             },
             description: 'The unique identifier for the supplier',
           },
@@ -783,6 +811,17 @@ export default {
         responses: {
           '200': {
             description: 'Supplier deleted successfully',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    success: { type: 'boolean', example: true },
+                    message: { type: 'string', example: 'Supplier with ID 1 was deleted.' },
+                  },
+                },
+              },
+            },
           },
           '400': {
             description: 'Supplier ID is required',
@@ -828,6 +867,11 @@ export default {
             description: 'The unique identifier for the item',
             example: '507f1f77bcf86cd799439011',
           },
+          itemId: {
+            type: 'number',
+            description: 'The auto-incremented item ID',
+            example: 1,
+          },
           name: {
             type: 'string',
             description: 'The name of the item',
@@ -837,22 +881,26 @@ export default {
             type: 'string',
             description: 'The category ID of the item',
             example: '507f1f77bcf86cd799439012',
+            nullable: true,
           },
           supplierId: {
             type: 'string',
             description: 'The supplier ID of the item',
             example: '507f1f77bcf86cd799439013',
+            nullable: true,
           },
           locationId: {
             type: 'string',
             description: 'The location ID where the item is stored',
             example: '507f1f77bcf86cd799439014',
+            nullable: true,
           },
           purchaseDate: {
             type: 'string',
-            format: 'date-time',
+            format: 'date',
             description: 'The date when the item was purchased',
-            example: '2024-01-15T10:30:00Z',
+            example: '2025-06-25',
+            nullable: true,
           },
           quantity: {
             type: 'number',
@@ -862,17 +910,20 @@ export default {
           price: {
             type: 'number',
             description: 'The price of the item',
-            example: 999.99,
+            example: 899.99,
+            nullable: true,
           },
           imageUrl: {
             type: 'string',
             description: 'The URL of the item image',
             example: 'https://example.com/laptop.jpg',
+            nullable: true,
           },
           SerialNumber: {
             type: 'string',
             description: 'The serial number of the item',
             example: 'SN123456789',
+            nullable: true,
           },
           warranty: {
             type: 'boolean',
@@ -883,114 +934,128 @@ export default {
             type: 'boolean',
             description: 'Whether the item has expiration',
             example: false,
+            nullable: true,
           },
           expirationDate: {
             type: 'string',
             format: 'date-time',
             description: 'The expiration date of the item',
-            example: '2025-01-15T10:30:00Z',
+            example: '2025-06-25T10:30:00Z',
+            nullable: true,
           },
           warrantyDate: {
             type: 'string',
             format: 'date-time',
             description: 'The warranty expiration date',
             example: '2026-01-15T10:30:00Z',
+            nullable: true,
           },
           notes: {
             type: 'string',
             description: 'Additional notes about the item',
             example: 'High-performance laptop for development',
+            nullable: true,
           },
           createdAt: {
             type: 'string',
             format: 'date-time',
             description: 'The date when the item was created',
-            example: '2024-01-15T10:30:00Z',
+            example: '2025-06-25T10:30:00Z',
           },
           updatedAt: {
             type: 'string',
             format: 'date-time',
             description: 'The date when the item was last updated',
-            example: '2024-01-15T10:30:00Z',
+            example: '2025-06-25T10:30:00Z',
           },
         },
       },
       ItemInput: {
         type: 'object',
-        required: ['name', 'locationId', 'quantity'],
+        required: ['name'],
         properties: {
           name: {
             type: 'string',
             description: 'The name of the item',
-            example: 'Laptop',
+            example: 'Macbook Air M2',
           },
           categoryId: {
             type: 'string',
             description: 'The category ID of the item',
-            example: '507f1f77bcf86cd799439012',
+            example: '2',
+            nullable: true,
           },
           supplierId: {
             type: 'string',
             description: 'The supplier ID of the item',
-            example: '507f1f77bcf86cd799439013',
+            example: '6',
+            nullable: true,
           },
           locationId: {
             type: 'string',
             description: 'The location ID where the item is stored',
-            example: '507f1f77bcf86cd799439014',
+            example: '2',
+            nullable: true,
           },
           purchaseDate: {
             type: 'string',
-            format: 'date-time',
+            format: 'date',
             description: 'The date when the item was purchased',
-            example: '2024-01-15T10:30:00Z',
+            example: '2025-06-25',
+            nullable: true,
           },
           quantity: {
             type: 'number',
             description: 'The quantity of the item',
-            example: 5,
+            example: 1,
           },
           price: {
             type: 'number',
             description: 'The price of the item',
-            example: 999.99,
+            example: 899.99,
+            nullable: true,
           },
           imageUrl: {
             type: 'string',
-            description: 'The URL of the item image',
-            example: 'https://example.com/laptop.jpg',
+            description: 'The URL of the item image.',
+            nullable: true,
           },
           SerialNumber: {
             type: 'string',
             description: 'The serial number of the item',
-            example: 'SN123456789',
+            example: 'NN123456789',
+            nullable: true,
           },
           warranty: {
             type: 'boolean',
-            description: 'Whether the item has warranty',
+            description: 'Does the item have a warranty?',
             example: true,
           },
           expiration: {
             type: 'boolean',
-            description: 'Whether the item has expiration',
+            description: 'Does the item have an expiration date?',
             example: false,
+            nullable: true,
           },
           expirationDate: {
             type: 'string',
-            format: 'date-time',
+            format: 'date',
             description: 'The expiration date of the item',
-            example: '2025-01-15T10:30:00Z',
+            example: '2025-06-25',
+            nullable: true,
           },
           warrantyDate: {
             type: 'string',
-            format: 'date-time',
-            description: 'The warranty expiration date',
-            example: '2026-01-15T10:30:00Z',
+            format: 'date',
+            description: 'The warranty expiration date.',
+            example: '2026-06-25',
+            nullable: true,
           },
           notes: {
             type: 'string',
-            description: 'Additional notes about the item',
-            example: 'High-performance laptop for development',
+            description: 'Additional notes about the item.',
+            example: 'This is the old laptop, has photos of the cat.',
+            nullable: true,
           },
         },
       },
@@ -999,8 +1064,13 @@ export default {
         properties: {
           _id: {
             type: 'string',
-            description: 'The unique identifier for the category',
+            description: 'The unique identifier for the category from the db',
             example: '507f1f77bcf86cd799439012',
+          },
+          categoryId: {
+            type: 'string',
+            description: 'The unique identifier for the category',
+            example: '2',
           },
           name: {
             type: 'string',
@@ -1011,18 +1081,19 @@ export default {
             type: 'string',
             description: 'Additional notes about the category',
             example: 'All electronic devices and accessories',
+            nullable: true,
           },
           createdAt: {
             type: 'string',
             format: 'date-time',
             description: 'The date when the category was created',
-            example: '2024-01-15T10:30:00Z',
+            example: '2025-06-25T10:30:00Z',
           },
           updatedAt: {
             type: 'string',
             format: 'date-time',
             description: 'The date when the category was last updated',
-            example: '2024-01-15T10:30:00Z',
+            example: '2025-06-25T10:30:00Z',
           },
         },
       },
@@ -1039,6 +1110,7 @@ export default {
             type: 'string',
             description: 'Additional notes about the category',
             example: 'All electronic devices and accessories',
+            nullable: true,
           },
         },
       },
@@ -1047,30 +1119,36 @@ export default {
         properties: {
           _id: {
             type: 'string',
-            description: 'The unique identifier for the location',
+            description: 'The unique identifier for the location from the db',
             example: '507f1f77bcf86cd799439014',
+          },
+          locationId: {
+            type: 'string',
+            description: 'The unique identifier for the location',
+            example: '1',
           },
           name: {
             type: 'string',
             description: 'The name of the location',
-            example: 'Warehouse A',
+            example: 'Office - Desk',
           },
           description: {
             type: 'string',
             description: 'Description of the location',
-            example: 'Main warehouse storage area',
+            example: 'This is the desk where I work.',
+            nullable: true,
           },
           createdAt: {
             type: 'string',
             format: 'date-time',
             description: 'The date when the location was created',
-            example: '2024-01-15T10:30:00Z',
+            example: '2025-06-25T10:30:00Z',
           },
           updatedAt: {
             type: 'string',
             format: 'date-time',
             description: 'The date when the location was last updated',
-            example: '2024-01-15T10:30:00Z',
+            example: '2025-06-25T10:30:00Z',
           },
         },
       },
@@ -1081,12 +1159,12 @@ export default {
           name: {
             type: 'string',
             description: 'The name of the location',
-            example: 'Warehouse A',
+            example: 'Office - Desk',
           },
           description: {
             type: 'string',
             description: 'Description of the location',
-            example: 'Main warehouse storage area',
+            example: 'This is the desk where I work.',
           },
         },
       },
@@ -1095,18 +1173,24 @@ export default {
         properties: {
           _id: {
             type: 'string',
-            description: 'The unique identifier for the supplier',
-            example: '507f1f77bcf86cd799439013',
+            description: 'The unique identifier for the supplier from the db',
+            example: '12311413123123',
+          },
+          supplierId: {
+            type: 'number',
+            description: 'The auto-incremented supplier ID',
+            example: 1,
           },
           name: {
             type: 'string',
             description: 'The name of the supplier',
-            example: 'TechCorp Inc.',
+            example: 'Apple',
           },
           website: {
             type: 'string',
             description: 'The website of the supplier',
-            example: 'https://techcorp.com',
+            example: 'https://apple.com',
+            nullable: true,
           },
           address: {
             type: 'boolean',
@@ -1116,54 +1200,62 @@ export default {
           addressLine1: {
             type: 'string',
             description: 'The first line of the supplier address',
-            example: '123 Tech Street',
+            example: '123 Apple Street',
+            nullable: true,
           },
           addressLine2: {
             type: 'string',
             description: 'The second line of the supplier address',
             example: 'Suite 100',
+            nullable: true,
           },
           city: {
             type: 'string',
             description: 'The city of the supplier',
-            example: 'San Francisco',
+            example: 'Rexburg',
+            nullable: true,
           },
           state: {
             type: 'string',
             description: 'The state of the supplier',
-            example: 'CA',
+            example: 'ID',
+            nullable: true,
           },
           zip: {
             type: 'string',
             description: 'The zip code of the supplier',
-            example: '94105',
+            example: '83440',
+            nullable: true,
           },
           country: {
             type: 'string',
             description: 'The country of the supplier',
-            example: 'USA',
+            example: 'United States',
+            nullable: true,
           },
           email: {
             type: 'string',
             description: 'The email of the supplier',
-            example: 'contact@techcorp.com',
+            example: 'contact@apple.com',
+            nullable: true,
           },
           phone: {
             type: 'string',
             description: 'The phone number of the supplier',
-            example: '+1-555-123-4567',
+            example: '+1-888-123-4232',
+            nullable: true,
           },
           createdAt: {
             type: 'string',
             format: 'date-time',
             description: 'The date when the supplier was created',
-            example: '2024-01-15T10:30:00Z',
+            example: '2025-06-25T10:30:00Z',
           },
           updatedAt: {
             type: 'string',
             format: 'date-time',
             description: 'The date when the supplier was last updated',
-            example: '2024-01-15T10:30:00Z',
+            example: '2025-06-25T10:30:00Z',
           },
         },
       },
@@ -1174,12 +1266,13 @@ export default {
           name: {
             type: 'string',
             description: 'The name of the supplier',
-            example: 'TechCorp Inc.',
+            example: 'Apple',
           },
           website: {
             type: 'string',
             description: 'The website of the supplier',
-            example: 'https://techcorp.com',
+            example: 'https://apple.com',
+            nullable: true,
           },
           address: {
             type: 'boolean',
@@ -1189,66 +1282,50 @@ export default {
           addressLine1: {
             type: 'string',
             description: 'The first line of the supplier address',
-            example: '123 Tech Street',
+            example: '123 Apple Street',
+            nullable: true,
           },
           addressLine2: {
             type: 'string',
             description: 'The second line of the supplier address',
             example: 'Suite 100',
+            nullable: true,
           },
           city: {
             type: 'string',
             description: 'The city of the supplier',
-            example: 'San Francisco',
+            example: 'Rexburg',
+            nullable: true,
           },
           state: {
             type: 'string',
             description: 'The state of the supplier',
-            example: 'CA',
+            example: 'ID',
+            nullable: true,
           },
           zip: {
             type: 'string',
             description: 'The zip code of the supplier',
-            example: '94105',
+            example: '83440',
+            nullable: true,
           },
           country: {
             type: 'string',
             description: 'The country of the supplier',
-            example: 'USA',
+            example: 'United States',
+            nullable: true,
           },
           email: {
             type: 'string',
             description: 'The email of the supplier',
-            example: 'contact@techcorp.com',
+            example: 'contact@apple.com',
+            nullable: true,
           },
           phone: {
             type: 'string',
             description: 'The phone number of the supplier',
-            example: '+1-555-123-4567',
-          },
-          createdAt: {
-            type: 'string',
-            format: 'date-time',
-            description: 'The date when the supplier was created',
-            example: '2024-01-15T10:30:00Z',
-          },
-        },
-      },
-      UserAuthInput: {
-        type: 'object',
-        required: ['email', 'password'],
-        properties: {
-          email: {
-            type: 'string',
-            format: 'email',
-            description: 'The email of the user',
-            example: 'user@example.com',
-          },
-          password: {
-            type: 'string',
-            format: 'password',
-            description: 'The password of the user',
-            example: 'password123',
+            example: '+1-888-123-4232',
+            nullable: true,
           },
         },
       },

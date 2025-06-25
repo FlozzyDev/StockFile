@@ -6,13 +6,14 @@ import indexRoute from './routes/index.js';
 import session from 'express-session';
 import passport from 'passport';
 import './auth/oauth/config/passport.config.js';
+import { errorHandler } from './middleware/errorHandler.js';
 
 const app = express();
 app.set('trust proxy', 1); // needed for both render and local development
 
 const isProduction = process.env.NODE_ENV === 'production';
 
-const allowedOrigins = isProduction 
+const allowedOrigins = isProduction
   ? ['https://stockfile.onrender.com']
   : ['http://localhost:3000'];
 
@@ -31,10 +32,10 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-        secure: process.env.NODE_ENV === "production",
+      secure: process.env.NODE_ENV === 'production',
       httpOnly: true,
       maxAge: 15 * 60 * 1000,
-      sameSite: process.env.NODE_ENV === "production" ? 'none' : 'lax',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
     },
   })
 );
@@ -42,11 +43,10 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/', indexRoute);
 
-app.use('/', (req, res) => {
-  res.redirect('/api-docs');
-});
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+app.use(errorHandler);
 
 export default app;
