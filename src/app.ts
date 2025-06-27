@@ -3,6 +3,7 @@ import cors from 'cors';
 import swaggerUi from 'swagger-ui-express';
 import swaggerDocument from './swagger.js';
 import indexRoute from './routes/index.js';
+import categoryRoutes from './routes/category.routes.js';
 import session from 'express-session';
 import passport from 'passport';
 import './auth/oauth/config/passport.config.js';
@@ -44,8 +45,13 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/', indexRoute);
+app.use('/categories', categoryRoutes);
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, {
+  swaggerOptions: {
+    withCredentials: true,
+  }
+}));
 
 app.use(errorHandler);
 
