@@ -1077,7 +1077,7 @@ export default {
             description: 'The name of the category',
             example: 'Electronics',
           },
-          notes: {
+          description: {
             type: 'string',
             description: 'Additional notes about the category',
             example: 'All electronic devices and accessories',
@@ -1106,7 +1106,7 @@ export default {
             description: 'The name of the category',
             example: 'Electronics',
           },
-          notes: {
+          description: {
             type: 'string',
             description: 'Additional notes about the category',
             example: 'All electronic devices and accessories',
