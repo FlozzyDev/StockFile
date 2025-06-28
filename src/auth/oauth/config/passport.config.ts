@@ -37,17 +37,21 @@ passport.use(
         clientID: clientID || '',
         clientSecret: clientSecret || '',
         callbackURL: callbackURL || '',
+        scope: ['user:email'],
     },
     async (accessToken: string, refreshToken: string, profile: any, done: any) => {
       try {
         let user = await OAuthUser.findOne({ githubId: profile.id });
         if (!user) {
+          const email = profile.emails?.[0]?.value || undefined;
+
           user = await OAuthUser.create({
                 githubId: profile.id,
                 username: profile.username,
                 displayName: profile.displayName,
                 avatarUrl: profile.photos[0]?.value,
-                profileUrl: profile.profileUrl
+                profileUrl: profile.profileUrl,
+                ...(email && { email })
           });
         }
         console.log("Located user");
