@@ -8,6 +8,7 @@ import session from 'express-session';
 import passport from 'passport';
 import './auth/oauth/config/passport.config.js';
 import { errorHandler } from './middleware/errorHandler.js';
+import locationRoutes from './routes/location.routes.js';
 
 const app = express();
 app.set('trust proxy', 1); // needed for both render and local development
@@ -46,6 +47,7 @@ app.use(passport.session());
 
 app.use('/', indexRoute);
 app.use('/categories', categoryRoutes);
+app.use('/locations', locationRoutes);
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, {
   swaggerOptions: {

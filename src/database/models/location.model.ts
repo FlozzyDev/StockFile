@@ -22,3 +22,20 @@ locationSchema.pre('save', async function (next) {
 
 const Location = mongoose.model<ILocation>('Location', locationSchema);
 export default Location;
+
+// import mongoose from "mongoose";
+// import { ILocation } from "../../types/location.types.js";
+
+// const locationSchema = new mongoose.Schema<ILocation>({
+//   locationId: {
+//     type: Number,
+//     required: true,
+//     unique: true,
+//   },
+//   name: { type: String, required: true },
+//   description: { type: String, required: false, default: null },
+// }, { timestamps: true, id: true, versionKey: false });
+
+// const Location = mongoose.model<ILocation>('Location', locationSchema);
+
+// export default Location;
