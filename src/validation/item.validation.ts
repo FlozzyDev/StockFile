@@ -2,9 +2,9 @@ import Joi from 'joi';
 
 export const itemValidationSchema = Joi.object({
   name: Joi.string().required().min(2).max(100), // REQUIRED -----------
-  categoryId: Joi.string().optional().allow(null, ''),
-  supplierId: Joi.string().optional().allow(null, ''),
-  locationId: Joi.string().optional().allow(null, ''),
+  categoryId: Joi.number().optional().allow(null, ''),
+  supplierId: Joi.number().optional().allow(null, ''),
+  locationId: Joi.number().optional().allow(null, ''),
   purchaseDate: Joi.date().optional().allow(null),
   quantity: Joi.number().required().min(1).default(1), // REQUIRED -----------
   price: Joi.number().optional().min(0).allow(null),
