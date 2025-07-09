@@ -30,17 +30,12 @@ export const getLocationById = async (req: Request, res: Response): Promise<void
 };
 
 export const createLocation = async (req: Request, res: Response): Promise<void> => {
-  const { locationId, name, description } = req.body;
-  if (!locationId || !name) {
-    throw new ValidationError('locationId and name are required');
+  const { name, description } = req.body; // made some changes - we don't need locationId since we auto-increment it
+  if (!name) {
+    throw new ValidationError('name is required');
   }
 
-  const existing = await Location.findOne({ locationId });
-  if (existing) {
-    throw new ConflictError(`Location with ID ${locationId} already exists`);
-  }
-
-  const newLocation = new Location({ locationId, name, description });
+  const newLocation = new Location({ name, description });
   const saved = await newLocation.save();
 
   res.status(201).json({
